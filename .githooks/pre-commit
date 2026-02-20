@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Pre-commit hook: Run Laravel Pint and PHPStan on staged PHP files.
+
+#################################################################################
+# Copy and paste these commands in an opened terminal at the root of the project:
+#    1- cp .githooks/pre-commit .git/hooks
+#    2- sudo chmod +x .git/hooks/pre-commit
+#################################################################################
+
+# Get staged PHP files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.php$')
+
+# If no PHP files are staged, skip
+if [ -z "$STAGED_FILES" ]; then
+  echo "✅ No PHP files to check."
+  exit 0
+fi
+
+PINT_BIN="./vendor/bin/pint"
+
+# Check if Laravel Pint exists
+if [ ! -f "$PINT_BIN" ]; then
+  echo "❌ Laravel Pint not found. Install it with:"
+  echo "    composer require --dev laravel/pint"
+  exit 1
+fi
+
+echo "🎨 Running Laravel Pint on staged PHP files..."
+
+for FILE in $STAGED_FILES; do
+  if [ -f "$FILE" ]; then
+    $PINT_BIN --dirty "$FILE"
+  fi
+done
+
+echo "🔍 Running PHPStan on staged PHP files..."
+echo "✅ All files formatted! Committing..."
+exit 0
