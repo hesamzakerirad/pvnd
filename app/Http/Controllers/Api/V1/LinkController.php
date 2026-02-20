@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Link\Shorten as ShortenLinkRequest;
 use App\Models\Link;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LinkController extends Controller

@@ -145,6 +145,6 @@ class Profile extends Model implements HasMedia
             $appUrl .= '/';
         }
 
-        return $appUrl . '@' . $this->uri;
+        return $appUrl.'@'.$this->uri;
     }
 }

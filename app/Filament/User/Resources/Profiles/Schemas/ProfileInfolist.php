@@ -49,14 +49,14 @@ class ProfileInfolist
                     ->label(__('attributes.created_at'))
                     ->dateTime()
                     ->formatStateUsing(
-                        fn($state) => verta($state)->format('Y/m/d - H:m:s')
+                        fn ($state) => verta($state)->format('Y/m/d - H:m:s')
                     )
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->label(__('attributes.updated_at'))
                     ->dateTime()
                     ->formatStateUsing(
-                        fn($state) => verta($state)->format('Y/m/d - H:m:s')
+                        fn ($state) => verta($state)->format('Y/m/d - H:m:s')
                     )
                     ->placeholder('-'),
             ]);

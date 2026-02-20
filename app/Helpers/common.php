@@ -1,27 +1,26 @@
 <?php
 
-if (!function_exists('isProfileHandle')) {
+if (! function_exists('isProfileHandle')) {
     function isProfileHandle(string $uri): bool
     {
         return $uri[0] === '@';
     }
 }
 
-if (!function_exists('getProfileHandle')) {
+if (! function_exists('getProfileHandle')) {
     function getProfileHandle(string $uri): string
     {
         return substr($uri, 1);
     }
 }
 
-if (!function_exists('ok')) {
+if (! function_exists('ok')) {
     /**
      * Return an OK JSON response.
      *
      * @param  mixed  $data
      * @param  string  $message
      * @param  int  $statusCode
-     * @return \Illuminate\Http\JsonResponse
      */
     function ok($data = [], $message = '', $statusCode = 200): \Illuminate\Http\JsonResponse
     {
@@ -34,14 +33,13 @@ if (!function_exists('ok')) {
     }
 }
 
-if (!function_exists('error')) {
+if (! function_exists('error')) {
     /**
      * Return an error JSON response.
      *
      * @param  mixed  $errors
      * @param  string  $message
      * @param  int  $statusCode
-     * @return \Illuminate\Http\JsonResponse
      */
     function error($errors = [], $message = '', $statusCode = 500): \Illuminate\Http\JsonResponse
     {
@@ -54,7 +52,7 @@ if (!function_exists('error')) {
     }
 }
 
-if (!function_exists('jsonResponse')) {
+if (! function_exists('jsonResponse')) {
     /**
      * Return a JSON response.
      *
@@ -63,7 +61,6 @@ if (!function_exists('jsonResponse')) {
      * @param  mixed  $errors
      * @param  string  $message
      * @param  int  $statusCode
-     * @return \Illuminate\Http\JsonResponse
      */
     function jsonResponse($type, $data = [], $errors = [], $message = '', $statusCode = 200): \Illuminate\Http\JsonResponse
     {
@@ -82,7 +79,7 @@ if (!function_exists('jsonResponse')) {
     }
 }
 
-if (!function_exists('jdd')) {
+if (! function_exists('jdd')) {
     /**
      * JSON-friendly dd() helper for APIs.
      *

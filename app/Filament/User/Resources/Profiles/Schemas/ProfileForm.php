@@ -2,7 +2,6 @@
 
 namespace App\Filament\User\Resources\Profiles\Schemas;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
@@ -10,6 +9,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProfileForm
 {
@@ -45,16 +45,16 @@ class ProfileForm
 
                         TextInput::make('location')
                             ->label(__('attributes.location'))
-                            ->visible(fn($get) => !$get('is_downloadable'))
-                            ->required(fn($get) => !$get('is_downloadable'))
+                            ->visible(fn ($get) => ! $get('is_downloadable'))
+                            ->required(fn ($get) => ! $get('is_downloadable'))
                             ->default(null),
 
                         SpatieMediaLibraryFileUpload::make('file')
                             ->collection('file')
                             ->label(__('attributes.file'))
                             ->rule('file')
-                            ->visible(fn($get) => $get('is_downloadable'))
-                            ->required(fn($get) => $get('is_downloadable'))
+                            ->visible(fn ($get) => $get('is_downloadable'))
+                            ->required(fn ($get) => $get('is_downloadable'))
                             ->disk('public')
                             ->preserveFilenames()
                             ->acceptedFileTypes([
@@ -94,12 +94,11 @@ class ProfileForm
             ]);
     }
 
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         foreach ($data['links'] ?? [] as $index => $link) {
 
-            if (!empty($link['is_downloadable'])) {
+            if (! empty($link['is_downloadable'])) {
 
                 /** @var Media|null $media */
                 $media = $this

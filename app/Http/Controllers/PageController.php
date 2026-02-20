@@ -40,6 +40,6 @@ class PageController extends Controller
                 $log->created_at = verta($log->created_at);
             });
 
-        return view ('change-logs', compact('changeLogs'));
+        return view('change-logs', compact('changeLogs'));
     }
 }

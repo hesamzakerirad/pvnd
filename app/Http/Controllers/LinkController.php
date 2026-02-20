@@ -13,7 +13,7 @@ class LinkController extends Controller
     {
         $link = Link::create([
             'location' => $request->input('link'),
-            'user_id' => auth()->check() ? auth()->id() : null
+            'user_id' => auth()->check() ? auth()->id() : null,
         ]);
 
         return redirect()->route('home')

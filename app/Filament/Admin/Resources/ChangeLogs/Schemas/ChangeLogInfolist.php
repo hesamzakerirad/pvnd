@@ -17,7 +17,7 @@ class ChangeLogInfolist
                     ->label(__('attributes.created_at'))
                     ->dateTime()
                     ->formatStateUsing(
-                        fn($state) => verta($state)->format('Y/m/d')
+                        fn ($state) => verta($state)->format('Y/m/d')
                     )
                     ->placeholder('-'),
             ]);
