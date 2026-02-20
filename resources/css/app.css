@@ -1,0 +1,44 @@
+@config "../../tailwind.config.js";
+@import "tailwindcss";
+
+@import "./fonts.css";
+@import "./variables.css";
+
+body {
+    font-family: var(--font-family);
+    direction: rtl;
+}
+
+.cover {
+    background: radial-gradient(at 22.1% 21.3%, hsl(12, 76%, 90%) 0px, transparent 50%), radial-gradient(at 89% 22%, hsl(173, 58%, 90%) 0px, transparent 50%), radial-gradient(at 45% 88%, hsl(43, 74%, 90%) 0px, transparent 50%) #ffffff no-repeat;
+    mix-blend-mode: normal;
+}
+
+.banner {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/*
+a[target="_blank"]::after {
+    content: url(../svg/external-link.svg);
+    margin-right: 3px;
+} */
+
+code {
+    direction: ltr;
+    display: block;
+}
+
+code,
+code * {
+    font-family: var(--monospace-font-family) !important;
+}
+
+pre {
+    white-space: pre;
+}
+
+p {
+    line-height: 2rem;
+}
