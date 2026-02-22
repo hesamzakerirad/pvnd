@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ChangeLog;
 use App\Models\Faq;
 use App\Models\Link;
 use App\Models\Profile;
@@ -18,12 +19,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::truncate();
+        ChangeLog::truncate();
         Faq::truncate();
         Link::truncate();
         Profile::truncate();
 
         $this->call([
             UserSeeder::class,
+            ChangeLogSeeder::class,
             FaqSeeder::class,
             LinkSeeder::class,
             ProfileSeeder::class,
