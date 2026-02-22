@@ -19,6 +19,7 @@ return new class extends Migration
                 'general',
                 'link',
                 'profile',
+                'api',
             ])->default('general');
             $table->unsignedTinyInteger('order')->default(1);
             $table->boolean('is_visible')->default(true);

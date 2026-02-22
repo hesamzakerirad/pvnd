@@ -19,7 +19,7 @@ class FaqFactory extends Factory
         return [
             'question' => fake()->sentence(),
             'answer' => fake()->sentence(),
-            'group' => fake()->randomElement(['general', 'link', 'profile']),
+            'group' => fake()->randomElement(['general', 'link', 'profile', 'api']),
             'order' => fake()->randomDigit(),
             'is_visible' => fake()->boolean(),
         ];
