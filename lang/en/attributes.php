@@ -69,4 +69,7 @@ return [
     'is_created_using_api' => 'Is Created Using API',
     'is_downloadable' => 'Is Downloadable?',
     'file' => 'File',
+    'thumbnail' => 'Thumbnail',
+    'cover' => 'Cover',
+    'api' => 'API',
 ];
