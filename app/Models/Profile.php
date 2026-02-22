@@ -7,6 +7,7 @@ use App\Concerns\Viewable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
@@ -123,9 +124,9 @@ class Profile extends Model implements HasMedia
             ->latest();
     }
 
-    public function file(): MorphOne
+    public function files(): MorphMany
     {
-        return $this->morphOne(Media::class, 'model')
+        return $this->morphMany(Media::class, 'model')
             ->where('collection_name', 'file')
             ->latest();
     }

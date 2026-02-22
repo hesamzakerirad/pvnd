@@ -50,12 +50,16 @@ class LinkController extends Controller
             ->with([
                 'seoValues.seoKeys',
                 'cover',
-                'file',
+                'files',
                 'thumbnail',
             ])
             ->where('uri', $uri)
             ->where('is_public', true)
             ->firstOrFail();
+
+        // if ($profile->files->isNotEmpty()) {
+        //     dd($profile->files);
+        // }
 
         $profile->view();
 
