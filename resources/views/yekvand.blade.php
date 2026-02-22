@@ -1,64 +1,116 @@
 @extends('layout.master')
 
 @section('content')
-    <div class="isolate bg-white py-18 sm:py-24">
-        <div aria-hidden="true" class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-            <div style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
-                class="relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-288.75">
-            </div>
-        </div>
-        <div class="mb-6 bg-gray-100 py-32 border-t border-b border-gray-300">
-            <div class="mx-auto max-w-3xl">
-                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-balance text-gray-900 mb-3">یک‌وند چیست؟</h2>
-                <p class="mt-5">پیوند راه‌حلی برای حل مشکل شلوغی و یک‌پارچه‌سازی هویت اینترنتی شما معرفی کرده است و آن
-                    یک‌وند است.</p>
-                @if (auth()->check())
-                    <a class="inline-block border rounded-xl bg-primary-500 text-white py-2 px-4 mt-3"
-                        href="{{ route('filament.user.resources.profiles.create') }}">ساخت یک‌وند رایگان</a>
-                @else
-                    <a class="inline-block border rounded-xl bg-primary-500 text-white py-2 px-4 mt-3"
-                        href="{{ route('filament.user.auth.register') }}">ثبت نام رایگان</a>
-                @endif
-            </div>
-        </div>
-        <div class="mx-auto max-w-3xl">
-            <div class="mt-12 mb-3">
-                <p>برای استفاده از وب‌سرویس پیوند کافی‌ست با استفاده از نوع POST در پروتکل HTTP به آدرس زیر درخواست دهید.
-                    (آدرسی که می‌خواهید کوتاه کنید را با کلید <span
-                        class="text-xs bg-primary-50 text-primary-500 border rounded px-1">link</span> در بدنه درخواست ارسال
-                    کنید.)</p>
-            </div>
-
-            <x-torchlight-code language='text' class="whitespace-pre border border-gray-300 rounded-xl p-5 pt-0 my-6">
-                {{ route('v1.shorten') }}
-            </x-torchlight-code>
-
-            <div class="my-3">
-                <p>یا اگر احتیاج به cURL دارید، مقدار زیر را کپی کرده و در ترمنیال وارد کنید.</p>
-            </div>
-
-            <x-torchlight-code language='curl' class="whitespace-pre border border-gray-300 rounded-xl p-5 pt-0 my-6">
-                curl --location '{{ route('v1.shorten') }}' \
-                --header 'Accept: application/json' \
-                --form 'link="https://google.com"'
-            </x-torchlight-code>
-
-            <div class="my-3">
-                <p>در پایان سرور پیوند کوتاه شما را با کد 201 در قالب زیر به شما برمی‌گرداند.</p>
-            </div>
-
-            <x-torchlight-code language='json' class="whitespace-pre border border-gray-300 rounded-xl p-5 pt-0 my-6">
-                {
-                "status": "success",
-                "message": "پیوند کوتاه شما با موفقیت ساخته شد.",
-                "data": {
-                "link": "{{ config('app.url') }}/gg", // <--- ✅ }, "errors" : [] } </x-torchlight-code>
-
-                    <div class="my-3">
-                        <p>از اینکه از پیوند برای توسعه محصول خود استفاده کردید از شما سپاسگزاریم.</p>
+    <div class="isolate bg-gray-50 py-36 sm:pt-24">
+        <div class="py-36">
+            <div class="mx-auto max-w-5xl">
+                <div class="flex gap-3 justify-start align-middle">
+                    <div class="flex flex-col justify-center items-start">
+                        <h1 class="text-3xl sm:text-3xl font-bold tracking-tight text-balance text-gray-900 mb-6">یک‌وند
+                            چیست؟
+                        </h1>
+                        <div class="mb-6">
+                            <p class="font-semibold">یک‌وند یک آدرس اختصاصی برای شماست تا هویت دیجیتال خود را سادگی در
+                                اینترنت
+                                ثبت
+                                کنید.
+                            </p>
+                            <p class="font-normal">پیوند راه‌حلی برای حل مشکل شلوغی و یک‌پارچه‌سازی هویت اینترنتی شما معرفی
+                                کرده
+                                است
+                                و آن
+                                یک‌وند است.
+                            </p>
+                        </div>
+                        <div>
+                            @if (auth()->check())
+                                <a href="{{ route('filament.user.resources.profiles.create') }}"
+                                    class="bg-primary-500 text-white py-3 px-6 rounded-xl inline-block">
+                                    <span>ساخت یک‌وند رایگان</span>
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('filament.user.auth.register') }}"
+                                    class="bg-primary-500 text-white py-3 px-6 rounded-xl inline-block">
+                                    <span>ثبت‌نام رایگان</span>
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div>
+                </div>
+            </div>
         </div>
-    </div>
 
+        <div>
+            <div class="mx-auto max-w-5xl">
+                <div class="py-36">
+                    <p>یک ماژول جاواسکریپت برای تولید متن لورم ایپسوم به زبان فارسی است لورم ایپسوم متنی آزمایشی و بی معنی
+                        در
+                        طراحی می باشد که طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه
+                        شکل
+                        ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-base-200 py-8 sm:py-16 lg:py-24">
+            <div class="mx-auto max-w-7xl">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="bg-base-100 shadow-base-300/20 rounded-3xl p-8 shadow-lg sm:p-16 lg:p-24 bg-primary-50">
+                        <div
+                            class="flex justify-between gap-8 max-md:flex-col max-sm:items-center max-sm:text-center md:items-center">
+                            <div class="max-w-xs lg:max-w-lg">
+                                <h2 class="text-base-content mb-4 text-3xl font-bold">نیاز به کارت فیزیکی داری؟</h2>
+                                <p class="text-base-content/80">
+                                    در صورت نیاز می‌تونی درخواست چاپ یک‌وند رو به صورت کارت فیزیکی برای ما ارسال کنی و مثل
+                                    یک کارت ویزیت حرفه‌ای تحویلش بگیری!
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-6 max-md:w-full max-md:flex-col md:justify-end">
+                                <a href="{{ route('filament.user.resources.profiles.create') }}"
+                                    class="bg-base-content text-base-100 flex w-fit items-center gap-4 rounded-xl px-6 py-3 bg-primary-500 text-white">
+                                    <span class="font-medium">ساخت یک‌وند</span>
+                                    <i class="fas fa-arrow-left mr-3"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!empty($faq))
+            <section class="py-10 sm:py-16 lg:py-24">
+                <section class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+                    <div class="max-w-2xl mx-auto text-center">
+                        <h2 class="text-3xl sm:text-4xl font-bold leading-tight text-black">
+                            پرسش‌های پرتکرار
+                        </h2>
+                    </div>
+                    <div class="max-w-7xl mx-auto mt-8 space-y-4 md:mt-16">
+                        @foreach ($faq as $key => $item)
+                            @php
+                                $key++;
+                            @endphp
+                            <div
+                                class="transition-all duration-200 bg-white border border-gray-50 rounded-xl shadow-lg cursor-pointer hover:bg-gray-50">
+                                <button type="button" id="question{{ $key }}" data-state="closed"
+                                    class="flex items-center justify-between w-full px-4 py-5 sm:p-6">
+                                    <span class="flex text-lg font-semibold text-black">
+                                        @markdown($item->question)
+                                    </span>
+                                    <i id="arrow{{ $key }}" class="fa-solid fa-angle-up"></i>
+                                </button>
+                                <div id="answer{{ $key }}" style="display:none"
+                                    class="px-4 pb-5 sm:px-6 sm:pb-6 text-gray-500">
+                                    @markdown($item->answer)
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            </section>
+        @endif
     </div>
 @endsection

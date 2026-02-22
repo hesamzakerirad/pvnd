@@ -22,7 +22,7 @@ class PageController extends Controller
         ];
 
         $faq = Faq::query()
-            ->where('group', 'general')
+            ->where('order', 1)
             ->get();
 
         return view('home', compact([
@@ -40,6 +40,68 @@ class PageController extends Controller
                 $log->created_at = verta($log->created_at);
             });
 
-        return view('change-logs', compact('changeLogs'));
+        $faq = Faq::query()
+            ->where('group', 'general')
+            ->get();
+
+        return view('change-logs', compact('changeLogs', 'faq'));
+    }
+
+    public function yekvand()
+    {
+        $faq = Faq::query()
+            ->where('group', 'profile')
+            ->get();
+
+        return view('yekvand', compact('faq'));
+    }
+
+    public function api()
+    {
+        $faq = Faq::query()
+            ->where('group', 'api')
+            ->get();
+
+        return view('api', compact('faq'));
+    }
+
+    public function sitemap()
+    {
+        $pages = [
+            [
+                'title' => 'تماس با ما',
+                'route' => route('contact'),
+            ],
+            [
+                'title' => 'ثبت‌نام در سایت',
+                'route' => route('filament.user.auth.register'),
+            ],
+            [
+                'title' => 'خانه',
+                'route' => route('home'),
+            ],
+            [
+                'title' => 'دانشنامه',
+                'route' => route('blog'),
+            ],
+            [
+                'title' => 'مسیر رشد',
+                'route' => route('change-logs'),
+            ],
+            [
+                'title' => 'وب‌سرویس',
+                'route' => route('api'),
+            ],
+            [
+                'title' => 'ورود به حساب کاربری',
+                'route' => route('filament.user.auth.login'),
+            ],
+            [
+                'title' => 'یک‌وند',
+                'route' => route('yekvand'),
+            ],
+        ];
+
+        return view('sitemap', compact('pages'));
     }
 }
