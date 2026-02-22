@@ -9,7 +9,6 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProfileForm
 {
@@ -19,6 +18,22 @@ class ProfileForm
             ->components([
                 Hidden::make('user_id')
                     ->default(auth()->id()),
+                SpatieMediaLibraryFileUpload::make('thumbnail')
+                    ->label(__('attributes.thumbnail'))
+                    ->collection('thumbnail')
+                    ->image()
+                    ->disk(config('media-library.disk_name'))
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
+                    ->required(),
+                SpatieMediaLibraryFileUpload::make('cover')
+                    ->label(__('attributes.cover'))
+                    ->collection('cover')
+                    ->image()
+                    ->disk(config('media-library.disk_name'))
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
+                    ->required(),
                 TextInput::make('uri')
                     ->label(__('attributes.uri'))
                     ->required()
@@ -45,17 +60,20 @@ class ProfileForm
 
                         TextInput::make('location')
                             ->label(__('attributes.location'))
-                            ->visible(fn ($get) => ! $get('is_downloadable'))
-                            ->required(fn ($get) => ! $get('is_downloadable'))
+                            ->visible(fn ($get) => (bool) ! $get('is_downloadable'))
+                            ->required(fn ($get) => (bool) ! $get('is_downloadable'))
                             ->default(null),
 
                         SpatieMediaLibraryFileUpload::make('file')
                             ->collection('file')
+                            ->customProperties(fn ($get) => [
+                                'link_uuid' => $get('uuid'),
+                            ])
                             ->label(__('attributes.file'))
                             ->rule('file')
-                            ->visible(fn ($get) => $get('is_downloadable'))
-                            ->required(fn ($get) => $get('is_downloadable'))
-                            ->disk('public')
+                            ->visible(fn ($get) => (bool) $get('is_downloadable'))
+                            ->required(fn ($get) => (bool) $get('is_downloadable'))
+                            ->disk(config('media-library.disk_name'))
                             ->preserveFilenames()
                             ->acceptedFileTypes([
                                 'application/pdf',
@@ -70,49 +88,9 @@ class ProfileForm
                             ->reactive(),
                     ])
                     ->columnSpanFull(),
-                SpatieMediaLibraryFileUpload::make('thumbnail')
-                    ->collection('thumbnail')
-                    ->image()
-                    // ->directory('images')
-                    ->disk('public')
-                    ->imagePreviewHeight('200')
-                    ->maxSize(2048)
-                    ->columnSpanFull()
-                    ->required(),
-                SpatieMediaLibraryFileUpload::make('cover')
-                    ->collection('cover')
-                    ->image()
-                    // ->directory('images')
-                    ->disk('public')
-                    ->imagePreviewHeight('200')
-                    ->maxSize(2048)
-                    ->columnSpanFull()
-                    ->required(),
                 Toggle::make('is_public')
                     ->label(__('attributes.is_public'))
                     ->required(),
             ]);
-    }
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        foreach ($data['links'] ?? [] as $index => $link) {
-
-            if (! empty($link['is_downloadable'])) {
-
-                /** @var Media|null $media */
-                $media = $this
-                    ->record
-                    ->getMedia('downloads')
-                    ->get($index);
-
-                if ($media) {
-                    $data['links'][$index]['media_id'] = $media->id;
-                    unset($data['links'][$index]['location']);
-                }
-            }
-        }
-
-        return $data;
     }
 }

@@ -19,15 +19,33 @@ class ProfileForm
                 Select::make('user_id')
                     ->label(__('attributes.user'))
                     ->relationship('user', 'name'),
+                SpatieMediaLibraryFileUpload::make('thumbnail')
+                    ->label(__('attributes.thumbnail'))
+                    ->collection('thumbnail')
+                    ->image()
+                    ->disk(config('media-library.disk_name'))
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
+                    ->required(),
+                SpatieMediaLibraryFileUpload::make('cover')
+                    ->label(__('attributes.cover'))
+                    ->collection('cover')
+                    ->image()
+                    ->disk(config('media-library.disk_name'))
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
+                    ->required(),
                 TextInput::make('uri')
                     ->label(__('attributes.uri'))
-                    ->required(),
+                    ->required()
+                    ->unique(),
                 TextInput::make('title')
                     ->label(__('attributes.title'))
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
                 TextInput::make('label')
                     ->label(__('attributes.label'))
-                    ->required(),
+                    ->maxLength(255),
                 TextInput::make('position')
                     ->label(__('attributes.position'))
                     ->maxLength(255),
@@ -38,31 +56,36 @@ class ProfileForm
                     ->label(__('attributes.links'))
                     ->schema([
                         TextInput::make('label')
-                            ->label(__('attributes.label')),
+                            ->label(__('attributes.label'))
+                            ->required(),
+
                         TextInput::make('location')
-                            ->label(__('attributes.location')),
+                            ->label(__('attributes.location'))
+                            ->visible(fn ($get) => ! $get('is_downloadable'))
+                            ->required(fn ($get) => ! $get('is_downloadable'))
+                            ->default(null),
+
+                        SpatieMediaLibraryFileUpload::make('file')
+                            ->collection('file')
+                            ->label(__('attributes.file'))
+                            ->rule('file')
+                            ->visible(fn ($get) => $get('is_downloadable'))
+                            ->required(fn ($get) => $get('is_downloadable'))
+                            ->disk(config('media-library.disk_name'))
+                            ->preserveFilenames()
+                            ->acceptedFileTypes([
+                                'application/pdf',
+                                'application/zip',
+                                'application/msword',
+                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            ])
+                            ->default(null),
+
+                        Toggle::make('is_downloadable')
+                            ->label(__('attributes.is_downloadable'))
+                            ->reactive(),
                     ])
                     ->columnSpanFull(),
-                SpatieMediaLibraryFileUpload::make('thumbnail')
-                    ->collection('thumbnail')
-                    ->image()
-                    ->directory('images')
-                    ->disk('public')
-                    ->imagePreviewHeight('200')
-                    ->maxSize(2048)
-                    ->columnSpanFull()
-                    ->required(),
-                SpatieMediaLibraryFileUpload::make('cover')
-                    ->collection('cover')
-                    ->image()
-                    ->directory('images')
-                    ->disk('public')
-                    ->imagePreviewHeight('200')
-                    ->automaticallyResizeImagesToWidth(600)
-                    ->automaticallyResizeImagesToHeight(200)
-                    ->maxSize(2048)
-                    ->columnSpanFull()
-                    ->required(),
                 Toggle::make('is_public')
                     ->label(__('attributes.is_public'))
                     ->required(),
